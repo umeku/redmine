@@ -209,6 +209,8 @@ class IssuesController < ApplicationController
       unless issue.save
         # Keep unsaved issue ids to display them in flash error
         unsaved_issue_ids << issue.id
+      else
+        call_hook(:controller_issues_bulk_edit_after_save, { :params => params, :issue => issue })
       end
     end
     set_flash_from_bulk_issue_save(@issues, unsaved_issue_ids)
